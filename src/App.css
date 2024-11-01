@@ -11,17 +11,22 @@
 }
 form {
   width: min(620px,100%);
-  margin: 10% auto 0;
+  margin: 5%  auto ;
   height: fit-content;
   display: flex;
   flex-direction: column;
   gap: .6rem;
+  box-shadow: -.1px 6.5px  10px .1em #a8a8a883;
+  padding:1em;
+  border-radius: 7px;
 }
 form input{
   all: unset;
-  width: 100%;
-  font-size: 1.58rem;
+  font-size: 1.5rem;
   margin-bottom: 20px;
+  border-bottom: 2px dashed  #a8a8a883;
+  padding: 0 20px 10px 15px ;
+
 }
 .theme-light input{
   color: #444;
@@ -105,6 +110,7 @@ form ul li #remove:hover{
 .theme-dark p{
   color: #ffffff;
 }
+
 .theme-dark form span{
   color: #fff;
 }
