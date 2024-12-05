@@ -9,7 +9,7 @@ function App() {
   const themeManagement = new ThemeManagement();
   const [theme, setTheme] = useState(themeManagement.getTheme())
   const database = new LocalStorageManagement("TASK_APP");
-  const [Error,setError] = useState('Some Error');
+  const [Error,setError] = useState('');
 
  
   function TASK_REDUCER(TASKS, ACTION) {
