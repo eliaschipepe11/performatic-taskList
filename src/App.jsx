@@ -9,7 +9,9 @@ function App() {
   const themeManagement = new ThemeManagement();
   const [theme, setTheme] = useState(themeManagement.getTheme())
   const database = new LocalStorageManagement("TASK_APP");
+  const [Error,setError] = useState('Some Error');
 
+ 
   function TASK_REDUCER(TASKS, ACTION) {
     switch (ACTION.type) {
       case 'ADD':
@@ -35,14 +37,30 @@ function App() {
   function changeMode() {
     setTheme(themeManagement.setTheme(theme == 'theme-light' ? 'theme-dark' : 'theme-light'))
   }
-
   useEffect(() => {
     database.saveData(tasks);
   }, [tasks]);
 
+  function Validate(value){
+    const exist = tasks.find(item=>item.content == value)
+    if(value.trim().length==0){
+      setError('Write something')
+      setTimeout(()=>setError(''), 3000);
+      return false;
+    }
+    if(exist){
+      setError('Already exists')
+      setTimeout(()=>setError(''), 3000);
+      return false;
+    }
+    return true;
+  }
+
   function addTask(e) {
-    e.preventDefault();
-    if (inputRef.current && inputRef.current.value) {
+
+    const isValid = Validate(inputRef.current.value);
+    e.preventDefault(inputRef.current);
+    if (inputRef.current && inputRef.current.value && isValid) {
       dispatch({ type: 'ADD', content: inputRef.current.value });
       inputRef.current.value = '';
     }
@@ -54,7 +72,10 @@ function App() {
     <div id='container' className={theme || ""}>
       <button id='toggle' onClick={() => changeMode()}>{theme == 'theme-dark' ? '☀️' : '🌙'}</button>
       <form onSubmit={addTask}>
-        <input type="text" placeholder='What needs to get done?' autoFocus tabIndex={0} ref={inputRef} />
+          <input  type="text" placeholder='What needs to get done?' autoFocus tabIndex={0} ref={inputRef} />
+          <p className='ErrorMessage'>{Error}</p>
+        <div style={{display:'flex',flexDirection:'column'}}>
+        </div>
         <ul>
           {
             tasks && tasks.map(item => <TaskCard key={item.id} Task={item} Action={dispatch} Delete={DELETE} />)
